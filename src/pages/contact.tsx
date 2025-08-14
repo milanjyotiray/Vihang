@@ -171,7 +171,7 @@ export default function Contact() {
               <Mail className="w-8 h-8 text-indian-green mx-auto mb-3" />
               <h3 className="font-semibold text-gray-900 mb-2">Email Us</h3>
               <p className="text-sm text-gray-600">
-                hello@vihang.org
+                contact.vihang@gmail.com
               </p>
             </CardContent>
           </Card>
@@ -180,7 +180,7 @@ export default function Contact() {
               <Phone className="w-8 h-8 text-indian-green mx-auto mb-3" />
               <h3 className="font-semibold text-gray-900 mb-2">Call Us</h3>
               <p className="text-sm text-gray-600">
-                +91 XXXXX XXXXX
+                +91 9678165375
               </p>
             </CardContent>
           </Card>
