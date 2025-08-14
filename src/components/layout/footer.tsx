@@ -23,9 +23,11 @@ export default function Footer() {
               Connecting communities with helpers, one story at a time. Building bridges between those who need support and those ready to provide it.
             </p>
             <div className="flex space-x-4">
+              
               <a href="https://x.com/Vihangofficial" 
               className="text-gray-400 hover:text-sky-blue-500 transition-colors"
-              data-testid="link-twitter">
+              data-testid="link-twitter"
+              >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1227" className="w-5 h-5 fill-current">
                 <path d="M714.163 512.923 1160.89 0h-109.06L671.36 446.39 433.024 0H0l468.473 808.01L0 1226.7h109.06l401.318-456.93 252.4 456.93H1200L714.163 512.923zM559.256 696.44l-46.47-85.87L188.052 80h148.24l250.94 463.1 46.47 85.87 335.25 617.77H820.71L559.256 696.44z"/>
               </svg>
