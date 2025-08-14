@@ -1,7 +1,7 @@
 import { QueryClient } from "@tanstack/react-query";
 import { supabase } from "./supabase";
 import type { Story, InsertStory } from "@shared/schema";
-import type { Tables, InsertTables } from "./supabase";
+import type { InsertTables } from "./supabase";
 
 // Story service functions
 export const storyService = {
@@ -18,7 +18,7 @@ export const storyService = {
 
     // Apply filters
     if (filters?.category && filters.category !== "all" && filters.category !== "") {
-      query = query.eq("category", filters.category);
+      query = query.eq("category", filters.category as "education" | "health" | "livelihood" | "other");
     }
 
     if (filters?.state && filters.state !== "all" && filters.state !== "") {
