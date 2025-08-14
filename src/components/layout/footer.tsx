@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Twitter, Instagram, Linkedin } from "lucide-react";
+import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 import logoImage from "@/assets/logo.png";
 
 export default function Footer() {
@@ -20,27 +20,32 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-gray-300 mb-4 max-w-md">
-              Connecting communities with helpers, one story at a time. Building
-              bridges between those who need support and those ready to provide
-              it.
+              Connecting communities with helpers, one story at a time. Building bridges between those who need support and those ready to provide it.
             </p>
             <div className="flex space-x-4">
-              <a
-                href="https://x.com/Vihangofficial"
+              <a 
+                href="#" 
+                className="text-gray-400 hover:text-sky-blue-500 transition-colors"
+                data-testid="link-facebook"
+              >
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a 
+                href="#" 
                 className="text-gray-400 hover:text-sky-blue-500 transition-colors"
                 data-testid="link-twitter"
               >
                 <Twitter className="w-5 h-5" />
               </a>
-              <a
-                href="https://www.instagram.com/vihang_in/"
+              <a 
+                href="#" 
                 className="text-gray-400 hover:text-sky-blue-500 transition-colors"
                 data-testid="link-instagram"
               >
                 <Instagram className="w-5 h-5" />
               </a>
-              <a
-                href="https://www.linkedin.com/company/108317524/admin/dashboard/"
+              <a 
+                href="#" 
                 className="text-gray-400 hover:text-sky-blue-500 transition-colors"
                 data-testid="link-linkedin"
               >
@@ -55,30 +60,22 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link href="/">
-                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
-                    Home
-                  </span>
+                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">Home</span>
                 </Link>
               </li>
               <li>
                 <Link href="/submit">
-                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
-                    Submit Story
-                  </span>
+                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">Submit Story</span>
                 </Link>
               </li>
               <li>
                 <Link href="/stories">
-                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
-                    Browse Stories
-                  </span>
+                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">Browse Stories</span>
                 </Link>
               </li>
               <li>
                 <Link href="/contact">
-                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
-                    Join Network
-                  </span>
+                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">Join Network</span>
                 </Link>
               </li>
             </ul>
@@ -90,30 +87,22 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link href="/stories?category=education">
-                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
-                    Education
-                  </span>
+                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">Education</span>
                 </Link>
               </li>
               <li>
                 <Link href="/stories?category=health">
-                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
-                    Health
-                  </span>
+                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">Health</span>
                 </Link>
               </li>
               <li>
                 <Link href="/stories?category=livelihood">
-                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
-                    Livelihood
-                  </span>
+                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">Livelihood</span>
                 </Link>
               </li>
               <li>
                 <Link href="/stories?category=other">
-                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
-                    Infrastructure
-                  </span>
+                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">Infrastructure</span>
                 </Link>
               </li>
             </ul>
