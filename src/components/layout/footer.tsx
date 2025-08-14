@@ -24,28 +24,21 @@ export default function Footer() {
             </p>
             <div className="flex space-x-4">
               <a 
-                href="#" 
-                className="text-gray-400 hover:text-sky-blue-500 transition-colors"
-                data-testid="link-facebook"
-              >
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a 
-                href="#" 
+                href="https://x.com/Vihangofficial" 
                 className="text-gray-400 hover:text-sky-blue-500 transition-colors"
                 data-testid="link-twitter"
               >
                 <Twitter className="w-5 h-5" />
               </a>
               <a 
-                href="#" 
+                href="https://www.instagram.com/vihang_in/" 
                 className="text-gray-400 hover:text-sky-blue-500 transition-colors"
                 data-testid="link-instagram"
               >
                 <Instagram className="w-5 h-5" />
               </a>
               <a 
-                href="#" 
+                href="https://www.linkedin.com/company/108317524/admin/dashboard/" 
                 className="text-gray-400 hover:text-sky-blue-500 transition-colors"
                 data-testid="link-linkedin"
               >
