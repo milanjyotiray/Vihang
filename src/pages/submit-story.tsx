@@ -177,7 +177,16 @@ export default function SubmitStory() {
     if (!data.story?.trim() || data.story.length < 50) {
       toast({
         title: "❌ Validation Error",
-        description: "Please enter your story with at least 50 characters",
+        description: "Please enter your story with at least 50 characters (currently: " + (data.story?.length || 0) + " characters)",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (data.story.length > 1500) {
+      toast({
+        title: "❌ Validation Error",
+        description: "Story must be less than 1500 characters (currently: " + data.story.length + " characters)",
         variant: "destructive",
       });
       return;
@@ -371,18 +380,23 @@ export default function SubmitStory() {
                       </FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Describe the challenge..."
-                          className="min-h-32"
-                          maxLength={3000}
+                          placeholder="Describe the challenge your community faces in detail. Include specific examples, how it affects people, and what kind of help you're looking for..."
+                          className="min-h-40"
+                          maxLength={1500}
                           {...field}
                           onChange={(e) => handleStoryChange(e.target.value)}
                         />
                       </FormControl>
                       <div className="flex justify-between items-center text-sm">
                         <FormMessage />
-                        <span className={`${wordCount > 500 ? "text-red-500" : "text-gray-500"}`}>
-                          {wordCount} / 500 words
-                        </span>
+                        <div className="flex flex-col items-end gap-1">
+                          <span className={`${wordCount > 500 ? "text-red-500" : "text-gray-500"}`}>
+                            {wordCount} / 500 words
+                          </span>
+                          <span className={`${(field.value?.length || 0) > 1500 ? "text-red-500" : "text-gray-500"}`}>
+                            {field.value?.length || 0} / 1500 characters
+                          </span>
+                        </div>
                       </div>
                     </FormItem>
                   )}

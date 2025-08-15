@@ -12,7 +12,7 @@ export const storySchema = z.object({
   state: z.string().min(1, "State is required"),
   category: z.enum(storyCategories),
   title: z.string().min(5, "Title must be at least 5 characters").max(100, "Title must be less than 100 characters"),
-  story: z.string().min(50, "Story must be at least 50 characters").max(3000, "Story must be less than 3000 characters"),
+  story: z.string().min(50, "Story must be at least 50 characters").max(1500, "Story must be less than 1500 characters"),
   photoUrl: z.string().url().optional().or(z.literal("")),
   createdAt: z.string().or(z.date()),
   updatedAt: z.string().or(z.date()),
