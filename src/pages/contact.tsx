@@ -171,30 +171,30 @@ export default function ContactPage() {
         </Card>
 
         {/* Contact Info */}
-        <div className="grid md:grid-cols-3 gap-6 mt-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mt-8">
           <Card>
-            <CardContent className="p-6 text-center">
+            <CardContent className="p-4 sm:p-6 text-center">
               <Mail className="w-8 h-8 text-indian-green mx-auto mb-3" />
               <h3 className="font-semibold text-gray-900 mb-2">Email Us</h3>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 break-words px-2">
                 contact.vihang@gmail.com
               </p>
             </CardContent>
           </Card>
           <Card>
-            <CardContent className="p-6 text-center">
+            <CardContent className="p-4 sm:p-6 text-center">
               <Phone className="w-8 h-8 text-indian-green mx-auto mb-3" />
               <h3 className="font-semibold text-gray-900 mb-2">Call Us</h3>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 break-words px-2">
                 +91 9678165375
               </p>
             </CardContent>
           </Card>
           <Card>
-            <CardContent className="p-6 text-center">
+            <CardContent className="p-4 sm:p-6 text-center">
               <MessageCircle className="w-8 h-8 text-indian-green mx-auto mb-3" />
               <h3 className="font-semibold text-gray-900 mb-2">Response Time</h3>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 break-words px-2">
                 Within 24 hours
               </p>
             </CardContent>
