@@ -83,15 +83,15 @@ export default function ContactPage() {
               Fill out the form below and we'll get back to you as soon as possible.
             </p>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-4 sm:p-6 pt-0">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                   <FormField
                     control={form.control}
                     name="name"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="w-full">
                         <FormLabel>Your Name *</FormLabel>
                         <FormControl>
                           <Input 
@@ -107,7 +107,7 @@ export default function ContactPage() {
                     control={form.control}
                     name="email"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="w-full">
                         <FormLabel>Email Address *</FormLabel>
                         <FormControl>
                           <Input 
