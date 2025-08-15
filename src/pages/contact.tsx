@@ -11,7 +11,7 @@ import { contactService } from "@/lib/queryClient";
 import { contactSchema, type Contact } from "@shared/schema";
 import { Mail, MessageCircle, Phone } from "lucide-react";
 
-export default function Contact() {
+export default function ContactPage() {
   const { toast } = useToast();
 
   const form = useForm<Contact>({

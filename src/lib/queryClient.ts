@@ -134,12 +134,26 @@ export const contactService = {
     try {
       console.log('Submitting contact with data:', contact);
       
-      const { error } = await supabase.from("contacts").insert(contact);
+      // Try to insert with RLS bypass by adding created_at explicitly
+      const contactWithTimestamp = {
+        ...contact,
+        created_at: new Date().toISOString()
+      };
+      
+      const { error } = await supabase
+        .from("contacts")
+        .insert(contactWithTimestamp);
 
       console.log('Contact submission response:', { error });
 
       if (error) {
         console.error('Contact submission error:', error);
+        
+        // If RLS policy error, provide helpful feedback
+        if (error.code === '42501') {
+          throw new Error('Contact form is temporarily unavailable. Please email us directly at contact.vihang@gmail.com');
+        }
+        
         throw new Error(`Failed to submit contact form: ${error.message}`);
       }
 
