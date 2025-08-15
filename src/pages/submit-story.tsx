@@ -95,14 +95,18 @@ export default function SubmitStory() {
     onSuccess: (story: Story) => {
       setSubmittedStory(story);
       setShowSuccess(true);
-      queryClient.invalidateQueries({ queryKey: ["stories"] });
+      
+      // Invalidate all story-related queries to trigger real-time updates
+      queryClient.invalidateQueries({ queryKey: ["stories"], exact: false });
+      queryClient.invalidateQueries({ queryKey: ["stats"] });
+      
       form.reset();
       setWordCount(0);
       setMediaPreview(null);
       setMediaType(null);
       toast({
         title: "🎉 Story Submitted Successfully!",
-        description: "Your story has been submitted and will be reviewed shortly.",
+        description: "Your story has been submitted and will appear on the stories page shortly.",
       });
     },
     onError: (error: any) => {

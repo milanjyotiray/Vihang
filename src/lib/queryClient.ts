@@ -125,6 +125,28 @@ export const storyService = {
 
 // Contact service functions
 export const contactService = {
+  // Get all contacts (for admin purposes)
+  async getContacts(): Promise<{ id: number; name: string; email: string; subject: string; message: string; created_at: string; }[]> {
+    try {
+      console.log('Fetching contacts...');
+      
+      const { data, error } = await supabase
+        .from("contacts")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        throw new Error(`Failed to fetch contacts: ${error.message}`);
+      }
+
+      console.log('Contacts fetched successfully:', data?.length || 0);
+      return data || [];
+    } catch (error) {
+      console.error('Error in getContacts:', error);
+      throw error;
+    }
+  },
+
   async submitContact(contact: {
     name: string;
     email: string;

@@ -3,6 +3,7 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { useRealtimeSubscriptions } from "@/hooks/use-realtime";
 import Home from "@/pages/home";
 import Story from "@/pages/story";
 import SubmitStory from "@/pages/submit-story";
@@ -13,6 +14,9 @@ import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 
 function Router() {
+  // Initialize real-time subscriptions for the entire app
+  useRealtimeSubscriptions();
+  
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />

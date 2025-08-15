@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import StoryCard from "@/components/story-card";
 import { Search } from "lucide-react";
 import { Link } from "wouter";
+import { storyService } from "@/lib/queryClient";
 import type { Story } from "@shared/schema";
 
 const indianStates = [
@@ -51,7 +52,12 @@ export default function Stories() {
   }, []);
 
   const { data: stories = [], isLoading } = useQuery<Story[]>({
-    queryKey: ["/api/stories", categoryFilter === "all" ? "" : categoryFilter, stateFilter === "all" ? "" : stateFilter, searchQuery],
+    queryKey: ["stories", categoryFilter === "all" ? "" : categoryFilter, stateFilter === "all" ? "" : stateFilter, searchQuery],
+    queryFn: () => storyService.getStories({
+      category: categoryFilter === "all" ? "" : categoryFilter,
+      state: stateFilter === "all" ? "" : stateFilter,
+      search: searchQuery,
+    }),
   });
 
   return (
