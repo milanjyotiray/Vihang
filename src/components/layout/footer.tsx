@@ -24,25 +24,34 @@ export default function Footer() {
             </p>
             <div className="flex space-x-4">
               <a 
+                href="https://www.linkedin.com/company/108317524" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-sky-blue-500 transition-colors"
+                data-testid="link-linkedin"
+                aria-label="Follow us on LinkedIn"
+              >
+                <Linkedin className="w-5 h-5" />
+              </a>
+              <a 
                 href="https://x.com/Vihangofficial" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-400 hover:text-sky-blue-500 transition-colors"
                 data-testid="link-twitter"
+                aria-label="Follow us on X (Twitter)"
               >
                 <Twitter className="w-5 h-5" />
               </a>
               <a 
                 href="https://www.instagram.com/vihang_in/" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-400 hover:text-sky-blue-500 transition-colors"
                 data-testid="link-instagram"
+                aria-label="Follow us on Instagram"
               >
                 <Instagram className="w-5 h-5" />
-              </a>
-              <a 
-                href="https://www.linkedin.com/company/108317524/" 
-                className="text-gray-400 hover:text-sky-blue-500 transition-colors"
-                data-testid="link-linkedin"
-              >
-                <Linkedin className="w-5 h-5" />
               </a>
             </div>
           </div>

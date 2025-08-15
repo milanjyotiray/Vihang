@@ -78,6 +78,18 @@ export default function SubmitStory() {
 
   const submitStoryMutation = useMutation({
     mutationFn: async (data: InsertStory) => {
+      // Add validation before submission
+      const result = insertStorySchema.safeParse(data);
+      if (!result.success) {
+        throw new Error('Please fill in all required fields correctly.');
+      }
+      
+      // Check word count
+      const wordCount = data.story.trim().split(/\s+/).length;
+      if (wordCount > 500) {
+        throw new Error('Story must be 500 words or less.');
+      }
+      
       return await storyService.createStory(data);
     },
     onSuccess: (story: Story) => {
@@ -88,11 +100,16 @@ export default function SubmitStory() {
       setWordCount(0);
       setMediaPreview(null);
       setMediaType(null);
+      toast({
+        title: "🎉 Story Submitted Successfully!",
+        description: "Your story has been submitted and will be reviewed shortly.",
+      });
     },
     onError: (error: any) => {
+      console.error('Story submission error:', error);
       toast({
-        title: "Error",
-        description: error.message || "Failed to submit story. Please try again.",
+        title: "❌ Failed to Submit Story",
+        description: error.message || "Something went wrong. Please try again or contact us at contact.vihang@gmail.com",
         variant: "destructive",
       });
     },

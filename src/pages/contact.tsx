@@ -26,19 +26,25 @@ export default function Contact() {
 
   const contactMutation = useMutation({
     mutationFn: async (data: Contact) => {
-      await contactService.submitContact(data);
+      // Add validation before submission
+      const result = contactSchema.safeParse(data);
+      if (!result.success) {
+        throw new Error('Please fill in all required fields correctly.');
+      }
+      return await contactService.submitContact(data);
     },
     onSuccess: () => {
       toast({
-        title: "Message Sent",
-        description: "Thank you for reaching out! We'll get back to you soon.",
+        title: "✅ Message Sent Successfully!",
+        description: "Thank you for reaching out! We'll get back to you within 24 hours.",
       });
       form.reset();
     },
     onError: (error: any) => {
+      console.error('Contact form error:', error);
       toast({
-        title: "Failed to Send",
-        description: error.message || "Failed to send message. Please try again.",
+        title: "❌ Failed to Send Message",
+        description: error.message || "Something went wrong. Please try again or contact us directly at contact.vihang@gmail.com",
         variant: "destructive",
       });
     },
