@@ -72,35 +72,54 @@ export const storyService = {
 
   // Create new story
   async createStory(story: InsertStory): Promise<Story> {
-    // Transform app format to database format
-    const dbStory: InsertTables<"stories"> = {
-      name: story.name,
-      email: story.email,
-      city: story.city,
-      state: story.state,
-      category: story.category,
-      title: story.title,
-      story: story.story,
-      photo_url: story.photoUrl || null,
-    };
+    try {
+      console.log('Creating story with data:', story);
+      
+      // Transform app format to database format
+      const dbStory: InsertTables<"stories"> = {
+        name: story.name,
+        email: story.email,
+        city: story.city,
+        state: story.state,
+        category: story.category,
+        title: story.title,
+        story: story.story,
+        photo_url: story.photoUrl || null,
+      };
 
-    const { data, error } = await supabase
-      .from("stories")
-      .insert(dbStory)
-      .select()
-      .single();
+      console.log('Transformed data for database:', dbStory);
 
-    if (error) {
-      throw new Error(`Failed to create story: ${error.message}`);
+      const { data, error } = await supabase
+        .from("stories")
+        .insert(dbStory)
+        .select()
+        .single();
+
+      console.log('Supabase response:', { data, error });
+
+      if (error) {
+        console.error('Supabase error details:', error);
+        throw new Error(`Failed to create story: ${error.message}`);
+      }
+
+      if (!data) {
+        throw new Error('No data returned from story creation');
+      }
+
+      // Transform database format to app format
+      const result = {
+        ...data,
+        photoUrl: data.photo_url || "",
+        createdAt: data.created_at,
+        updatedAt: data.updated_at,
+      };
+
+      console.log('Story created successfully:', result);
+      return result;
+    } catch (error) {
+      console.error('Error in createStory:', error);
+      throw error;
     }
-
-    // Transform database format to app format
-    return {
-      ...data,
-      photoUrl: data.photo_url || "",
-      createdAt: data.created_at,
-      updatedAt: data.updated_at,
-    };
   },
 };
 
@@ -112,10 +131,22 @@ export const contactService = {
     subject: string;
     message: string;
   }): Promise<void> {
-    const { error } = await supabase.from("contacts").insert(contact);
+    try {
+      console.log('Submitting contact with data:', contact);
+      
+      const { error } = await supabase.from("contacts").insert(contact);
 
-    if (error) {
-      throw new Error(`Failed to submit contact form: ${error.message}`);
+      console.log('Contact submission response:', { error });
+
+      if (error) {
+        console.error('Contact submission error:', error);
+        throw new Error(`Failed to submit contact form: ${error.message}`);
+      }
+
+      console.log('Contact submitted successfully');
+    } catch (error) {
+      console.error('Error in submitContact:', error);
+      throw error;
     }
   },
 };

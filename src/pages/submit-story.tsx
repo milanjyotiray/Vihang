@@ -116,6 +116,74 @@ export default function SubmitStory() {
   });
 
   const onSubmit = (data: InsertStory) => {
+    console.log('Form submission data:', data);
+    console.log('Form validation errors:', form.formState.errors);
+    
+    // Additional validation before submission
+    if (!data.name?.trim()) {
+      toast({
+        title: "❌ Validation Error",
+        description: "Please enter your name",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (!data.email?.trim()) {
+      toast({
+        title: "❌ Validation Error",
+        description: "Please enter your email address",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (!data.city?.trim()) {
+      toast({
+        title: "❌ Validation Error",
+        description: "Please enter your city",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (!data.state?.trim()) {
+      toast({
+        title: "❌ Validation Error",
+        description: "Please select your state",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (!data.category) {
+      toast({
+        title: "❌ Validation Error",
+        description: "Please select a category",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (!data.title?.trim() || data.title.length < 5) {
+      toast({
+        title: "❌ Validation Error",
+        description: "Please enter a title with at least 5 characters",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (!data.story?.trim() || data.story.length < 50) {
+      toast({
+        title: "❌ Validation Error",
+        description: "Please enter your story with at least 50 characters",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    console.log('All validation passed, submitting story...');
     submitStoryMutation.mutate(data);
   };
 
