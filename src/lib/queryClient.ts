@@ -5,16 +5,51 @@ import type { InsertTables } from "./supabase";
 
 // Story service functions
 export const storyService = {
-  // Get all stories with optional filtering
+  // Get all stories with optional filtering and pagination
   async getStories(filters?: {
     category?: string;
     state?: string;
     search?: string;
-  }): Promise<Story[]> {
+    page?: number;
+    pageSize?: number;
+  }): Promise<{ stories: Story[]; total: number; hasMore: boolean }> {
+    const page = filters?.page || 1;
+    const pageSize = filters?.pageSize || 12; // Default 12 items per page
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize - 1;
+
+    // First, get the total count for pagination info
+    let countQuery = supabase
+      .from("stories")
+      .select("*", { count: 'exact', head: true });
+
+    // Apply the same filters to count query
+    if (filters?.category && filters.category !== "all" && filters.category !== "") {
+      countQuery = countQuery.eq("category", filters.category as "education" | "health" | "livelihood" | "other");
+    }
+
+    if (filters?.state && filters.state !== "all" && filters.state !== "") {
+      countQuery = countQuery.eq("state", filters.state);
+    }
+
+    if (filters?.search && filters.search.trim() !== "") {
+      countQuery = countQuery.or(
+        `title.ilike.%${filters.search}%,story.ilike.%${filters.search}%,city.ilike.%${filters.search}%`
+      );
+    }
+
+    const { count, error: countError } = await countQuery;
+
+    if (countError) {
+      throw new Error(`Failed to count stories: ${countError.message}`);
+    }
+
+    // Now get the actual data with pagination
     let query = supabase
       .from("stories")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })
+      .range(from, to);
 
     // Apply filters
     if (filters?.category && filters.category !== "all" && filters.category !== "") {
@@ -38,12 +73,21 @@ export const storyService = {
     }
 
     // Transform database format to app format
-    return (data || []).map((story) => ({
+    const stories = (data || []).map((story) => ({
       ...story,
       photoUrl: story.photo_url || "",
       createdAt: story.created_at,
       updatedAt: story.updated_at,
     }));
+
+    const total = count || 0;
+    const hasMore = (page * pageSize) < total;
+
+    return {
+      stories,
+      total,
+      hasMore
+    };
   },
 
   // Get single story by ID
@@ -192,11 +236,19 @@ export const queryClient = new QueryClient({
     queries: {
       refetchInterval: false,
       refetchOnWindowFocus: false,
-      staleTime: 5 * 60 * 1000, // 5 minutes
+      staleTime: 10 * 60 * 1000, // 10 minutes - longer cache
+      gcTime: 15 * 60 * 1000, // 15 minutes garbage collection
       retry: 1,
+      refetchOnReconnect: false, // Reduce unnecessary network calls
     },
     mutations: {
       retry: false,
     },
+  },
+  logger: {
+    // Reduce console logging in production
+    log: import.meta.env.DEV ? console.log : () => {},
+    warn: import.meta.env.DEV ? console.warn : () => {},
+    error: console.error,
   },
 });

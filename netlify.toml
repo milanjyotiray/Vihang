@@ -4,15 +4,71 @@
 
 [build.environment]
   NODE_VERSION = "18"
+  # Enable build optimizations
+  NODE_OPTIONS = "--max-old-space-size=4096"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
+# Cache static assets for 1 year
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    # Enable compression
+    Content-Encoding = "gzip"
+    # Security headers
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+
+# Cache fonts for 1 year
+[[headers]]
+  for = "*.woff2"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "font/woff2"
+    Cross-Origin-Embedder-Policy = "cross-origin"
+
+# Cache images for 1 month
+[[headers]]
+  for = "*.{png,jpg,jpeg,webp,svg}"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+    Content-Type = "image/*"
+
+# Cache HTML files for 5 minutes with revalidation
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=300, must-revalidate"
+    # Security headers for HTML
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co; img-src 'self' data: https:; media-src 'self';"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+# Service Worker caching
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    Service-Worker-Allowed = "/"
+
+# Manifest file caching
+[[headers]]
+  for = "/manifest.webmanifest"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+    Content-Type = "application/manifest+json"
+
 [context.production.environment]
   VITE_SUPABASE_URL = "https://your-project.supabase.co"
   VITE_SUPABASE_ANON_KEY = "your-anon-key"
+  # Enable production optimizations
+  NODE_ENV = "production"
 
 [context.deploy-preview.environment]
   VITE_SUPABASE_URL = "https://your-project.supabase.co"

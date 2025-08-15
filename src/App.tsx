@@ -3,32 +3,36 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { useRealtimeSubscriptions } from "@/hooks/use-realtime";
-import Home from "@/pages/home";
-import Story from "@/pages/story";
-import SubmitStory from "@/pages/submit-story";
-import Stories from "@/pages/stories";
-import Contact from "@/pages/contact";
-import NotFound from "@/pages/not-found";
+import { Suspense, lazy } from "react";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
+import LoadingSpinner from "@/components/ui/loading-spinner";
+
+// Lazy load all routes for better code splitting
+const Home = lazy(() => import("@/pages/home"));
+const Story = lazy(() => import("@/pages/story"));
+const SubmitStory = lazy(() => import("@/pages/submit-story"));
+const Stories = lazy(() => import("@/pages/stories"));
+const Contact = lazy(() => import("@/pages/contact"));
+const NotFound = lazy(() => import("@/pages/not-found"));
 
 function Router() {
-  // Initialize real-time subscriptions for the entire app
-  useRealtimeSubscriptions();
+  // Real-time subscriptions will be initialized per page as needed
   
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-1">
-        <Switch>
-          <Route path="/" component={Home} />
-          <Route path="/story/:id" component={Story} />
-          <Route path="/submit" component={SubmitStory} />
-          <Route path="/stories" component={Stories} />
-          <Route path="/contact" component={Contact} />
-          <Route component={NotFound} />
-        </Switch>
+        <Suspense fallback={<LoadingSpinner />}>
+          <Switch>
+            <Route path="/" component={Home} />
+            <Route path="/story/:id" component={Story} />
+            <Route path="/submit" component={SubmitStory} />
+            <Route path="/stories" component={Stories} />
+            <Route path="/contact" component={Contact} />
+            <Route component={NotFound} />
+          </Switch>
+        </Suspense>
       </main>
       <Footer />
     </div>
