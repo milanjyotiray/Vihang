@@ -48,7 +48,7 @@ supabase.from('stories').select('count', { count: 'exact', head: true })
       console.log('✅ Supabase connected successfully, stories count:', count)
     }
   })
-  .catch((error) => {
+  .catch((error: any) => {
     console.error('❌ Supabase connection failed:', error)
   })
 
