@@ -26,8 +26,24 @@ export async function apiRequest(method: string, endpoint: string, data?: any) {
           console.error('Supabase error:', error);
           throw error;
         }
-        console.log('Fetched stories:', stories);
-        return { json: async () => stories || [] };
+        // Normalize to Story schema shape (camelCase)
+        const normalized = (stories || []).map((s: any) => ({
+          id: s.id,
+          name: s.name,
+          email: s.email,
+          city: s.city,
+          state: s.state,
+          category: s.category,
+          title: s.title,
+          story: s.story,
+          photoUrl: s.photo_url ?? null,
+          createdAt: s.created_at,
+          updatedAt: s.updated_at,
+          featured: Boolean(s.featured ?? false),
+          verified: Boolean(s.verified ?? false),
+          helpApproved: Boolean(s.help_approved ?? false),
+        }));
+        return { json: async () => normalized };
       }
       
       if (endpoint.startsWith("/api/stories/")) {
@@ -39,7 +55,25 @@ export async function apiRequest(method: string, endpoint: string, data?: any) {
           .single();
         
         if (error) throw error;
-        return { json: async () => story };
+        const normalized = story
+          ? {
+              id: story.id,
+              name: story.name,
+              email: story.email,
+              city: story.city,
+              state: story.state,
+              category: story.category,
+              title: story.title,
+              story: story.story,
+              photoUrl: story.photo_url ?? null,
+              createdAt: story.created_at,
+              updatedAt: story.updated_at,
+              featured: Boolean(story.featured ?? false),
+              verified: Boolean(story.verified ?? false),
+              helpApproved: Boolean(story.help_approved ?? false),
+            }
+          : null;
+        return { json: async () => normalized };
       }
     }
     
@@ -61,7 +95,25 @@ export async function apiRequest(method: string, endpoint: string, data?: any) {
           .single();
         
         if (error) throw error;
-        return { json: async () => story };
+        const normalized = story
+          ? {
+              id: story.id,
+              name: story.name,
+              email: story.email,
+              city: story.city,
+              state: story.state,
+              category: story.category,
+              title: story.title,
+              story: story.story,
+              photoUrl: story.photo_url ?? null,
+              createdAt: story.created_at,
+              updatedAt: story.updated_at,
+              featured: Boolean(story.featured ?? false),
+              verified: Boolean(story.verified ?? false),
+              helpApproved: Boolean(story.help_approved ?? false),
+            }
+          : null;
+        return { json: async () => normalized };
       }
       
       if (endpoint === "/api/ngos") {
