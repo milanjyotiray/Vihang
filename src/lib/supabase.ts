@@ -26,8 +26,9 @@ export interface Database {
           photo_url: string | null
           created_at: string
           updated_at: string
-          featured: boolean | null
-          verified: boolean | null
+          featured: boolean
+          verified: boolean
+          help_approved: boolean
         }
         Insert: {
           id?: number
@@ -41,8 +42,9 @@ export interface Database {
           photo_url?: string | null
           created_at?: string
           updated_at?: string
-          featured?: boolean | null
-          verified?: boolean | null
+          featured?: boolean
+          verified?: boolean
+          help_approved?: boolean
         }
         Update: {
           id?: number
@@ -56,8 +58,9 @@ export interface Database {
           photo_url?: string | null
           created_at?: string
           updated_at?: string
-          featured?: boolean | null
-          verified?: boolean | null
+          featured?: boolean
+          verified?: boolean
+          help_approved?: boolean
         }
       }
       ngos: {

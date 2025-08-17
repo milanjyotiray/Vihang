@@ -12,12 +12,21 @@ export const insertStorySchema = z.object({
   photoUrl: z.string().url().optional().or(z.literal("")),
 });
 
-export const storySchema = insertStorySchema.extend({
+export const storySchema = z.object({
   id: z.number(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
-  featured: z.boolean().optional(),
-  verified: z.boolean().optional(),
+  name: z.string(),
+  email: z.string().email(),
+  city: z.string(),
+  state: z.string(),
+  category: z.enum(["education", "health", "livelihood", "other"]),
+  title: z.string(),
+  story: z.string(),
+  photoUrl: z.string().nullable(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  featured: z.boolean().default(false),
+  verified: z.boolean().default(false),
+  helpApproved: z.boolean().default(false),
 });
 
 // NGO schema

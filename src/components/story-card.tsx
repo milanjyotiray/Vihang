@@ -52,7 +52,7 @@ export default function StoryCard({ story }: StoryCardProps) {
     }
   };
 
-  const formatDate = (date: Date) => {
+  const formatDate = (date: string | Date) => {
     const now = new Date();
     const diffTime = Math.abs(now.getTime() - new Date(date).getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));

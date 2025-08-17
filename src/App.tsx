@@ -8,6 +8,7 @@ import Story from "@/pages/story";
 import SubmitStory from "@/pages/submit-story";
 import Stories from "@/pages/stories";
 import Contact from "@/pages/contact";
+import Admin from "@/pages/admin";
 import NotFound from "@/pages/not-found";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
@@ -23,6 +24,7 @@ function Router() {
           <Route path="/submit" component={SubmitStory} />
           <Route path="/stories" component={Stories} />
           <Route path="/contact" component={Contact} />
+          <Route path="/admin" component={Admin} />
           <Route component={NotFound} />
         </Switch>
       </main>

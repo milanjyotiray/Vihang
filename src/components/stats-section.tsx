@@ -15,9 +15,12 @@ export default function StatsSection() {
   const storiesCount = stories.length;
   const citiesCount = new Set(stories.map(story => story.city.toLowerCase())).size;
   
+  // Calculate approved help count
+  const approvedHelpCount = stories.filter(story => story.helpApproved).length;
+  
   const stats = [
     { value: storiesCount.toString(), label: "Stories Shared", color: "text-saffron" },
-    { value: Math.floor(storiesCount * 1.2).toString(), label: "Families Helped", color: "text-indian-green" },
+    { value: approvedHelpCount.toString(), label: "Families Helped", color: "text-indian-green" },
     { value: Math.floor(storiesCount * 0.3).toString(), label: "NGOs Connected", color: "text-sky-blue" },
     { value: citiesCount.toString(), label: "Cities Covered", color: "text-gray-800" },
   ];

@@ -35,15 +35,12 @@ export default function StoryPage() {
     }
   };
 
-  const formatDate = (date: Date) => {
-    const now = new Date();
-    const diffTime = Math.abs(now.getTime() - new Date(date).getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
-    if (diffDays === 1) return "1 day ago";
-    if (diffDays < 7) return `${diffDays} days ago`;
-    if (diffDays < 14) return "1 week ago";
-    return `${Math.ceil(diffDays / 7)} weeks ago`;
+  const formatDate = (date: string | Date) => {
+    return new Date(date).toLocaleDateString('en-IN', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
   };
 
   const shareStory = () => {
