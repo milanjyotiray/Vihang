@@ -20,7 +20,6 @@ export async function apiRequest(method: string, endpoint: string, data?: any) {
         const { data: stories, error } = await supabase
           .from('stories')
           .select('*')
-          .eq('status', 'approved')
           .order('created_at', { ascending: false });
         
         if (error) throw error;
@@ -53,7 +52,6 @@ export async function apiRequest(method: string, endpoint: string, data?: any) {
             title: data.title,
             story: data.story,
             photo_url: data.photoUrl || null,
-            tags: data.tags || null,
           }])
           .select()
           .single();
