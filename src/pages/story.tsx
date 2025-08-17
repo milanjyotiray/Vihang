@@ -1,6 +1,7 @@
 import { useParams } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useRealtimeStories } from "@/hooks/use-realtime-stories";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, User, Mail, Share2, ArrowLeft } from "lucide-react";
@@ -11,6 +12,9 @@ import type { Story } from "@/lib/schema";
 export default function StoryPage() {
   const { id } = useParams<{ id: string }>();
   const { toast } = useToast();
+
+  // Enable real-time updates for stories
+  useRealtimeStories();
 
   const { data: story, isLoading, error } = useQuery<Story>({
     queryKey: ["/api/stories", id],
