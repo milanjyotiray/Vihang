@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import StoryCard from "@/components/story-card";
 import { Search } from "lucide-react";
 import { Link } from "wouter";
-import type { Story } from "@shared/schema";
+import type { Story } from "@/lib/schema";
 
 const indianStates = [
   "All States", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa",

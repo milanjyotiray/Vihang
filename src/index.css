@@ -30,11 +30,11 @@
   --chart-4: hsl(47, 9%, 85%);
   --chart-5: hsl(0, 0%, 0%);
   
-  /* Custom Vihang colors */
-  --saffron: hsl(24, 100%, 58%);
-  --indian-green: hsl(120, 100%, 25%);
-  --sky-blue: hsl(197, 71%, 73%);
-  --tricolor-white: hsl(0, 0%, 100%);
+  /* Custom Vihang colors - Indian Tricolor Theme */
+  --saffron: 24 100% 58%;
+  --indian-green: 120 100% 25%;
+  --sky-blue: 197 71% 73%;
+  --tricolor-white: 0 0% 100%;
   
   --font-sans: 'Inter', sans-serif;
   --font-serif: 'Georgia', serif;

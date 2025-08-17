@@ -1,57 +1,91 @@
-import { QueryClient, QueryFunction } from "@tanstack/react-query";
-
-async function throwIfResNotOk(res: Response) {
-  if (!res.ok) {
-    const text = (await res.text()) || res.statusText;
-    throw new Error(`${res.status}: ${text}`);
-  }
-}
-
-export async function apiRequest(
-  method: string,
-  url: string,
-  data?: unknown | undefined,
-): Promise<Response> {
-  const res = await fetch(url, {
-    method,
-    headers: data ? { "Content-Type": "application/json" } : {},
-    body: data ? JSON.stringify(data) : undefined,
-    credentials: "include",
-  });
-
-  await throwIfResNotOk(res);
-  return res;
-}
-
-type UnauthorizedBehavior = "returnNull" | "throw";
-export const getQueryFn: <T>(options: {
-  on401: UnauthorizedBehavior;
-}) => QueryFunction<T> =
-  ({ on401: unauthorizedBehavior }) =>
-  async ({ queryKey }) => {
-    const res = await fetch(queryKey.join("/") as string, {
-      credentials: "include",
-    });
-
-    if (unauthorizedBehavior === "returnNull" && res.status === 401) {
-      return null;
-    }
-
-    await throwIfResNotOk(res);
-    return await res.json();
-  };
+import { QueryClient } from "@tanstack/react-query";
+import { supabase } from "./supabase";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      queryFn: getQueryFn({ on401: "throw" }),
-      refetchInterval: false,
-      refetchOnWindowFocus: false,
-      staleTime: Infinity,
-      retry: false,
-    },
-    mutations: {
-      retry: false,
+      staleTime: 1000 * 30, // 30 seconds for faster updates
+      refetchOnWindowFocus: true,
+      refetchOnMount: true,
+      retry: 1,
     },
   },
 });
+
+// Supabase API functions
+export async function apiRequest(method: string, endpoint: string, data?: any) {
+  try {
+    if (method === "GET") {
+      if (endpoint === "/api/stories") {
+        const { data: stories, error } = await supabase
+          .from('stories')
+          .select('*')
+          .eq('status', 'approved')
+          .order('created_at', { ascending: false });
+        
+        if (error) throw error;
+        return { json: async () => stories || [] };
+      }
+      
+      if (endpoint.startsWith("/api/stories/")) {
+        const id = endpoint.split("/").pop();
+        const { data: story, error } = await supabase
+          .from('stories')
+          .select('*')
+          .eq('id', id)
+          .single();
+        
+        if (error) throw error;
+        return { json: async () => story };
+      }
+    }
+    
+    if (method === "POST") {
+      if (endpoint === "/api/stories") {
+        const { data: story, error } = await supabase
+          .from('stories')
+          .insert([{
+            name: data.name,
+            email: data.email,
+            city: data.city,
+            state: data.state,
+            category: data.category,
+            title: data.title,
+            story: data.story,
+            photo_url: data.photoUrl || null,
+            tags: data.tags || null,
+          }])
+          .select()
+          .single();
+        
+        if (error) throw error;
+        return { json: async () => story };
+      }
+      
+      if (endpoint === "/api/ngos") {
+        const { data: ngo, error } = await supabase
+          .from('ngos')
+          .insert([{
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            website: data.website || null,
+            description: data.description,
+            focus_areas: data.focusAreas,
+            city: data.city,
+            state: data.state,
+          }])
+          .select()
+          .single();
+        
+        if (error) throw error;
+        return { json: async () => ngo };
+      }
+    }
+    
+    throw new Error(`API endpoint ${endpoint} not found`);
+  } catch (error) {
+    console.error('API Error:', error);
+    throw error;
+  }
+}

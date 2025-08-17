@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, User, Mail, Share2, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
-import type { Story } from "@shared/schema";
+import type { Story } from "@/lib/schema";
 
 export default function StoryPage() {
   const { id } = useParams<{ id: string }>();

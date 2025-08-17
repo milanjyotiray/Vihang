@@ -11,8 +11,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { insertStorySchema, type InsertStory, type Story } from "@shared/schema";
-import { Feather, CheckCircle, Copy, Upload } from "lucide-react";
+import { insertStorySchema, type InsertStory, type Story } from "@/lib/schema";
+import { Feather, CheckCircle, Copy, Upload, Send } from "lucide-react";
 
 const indianStates = [
 "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa",
@@ -340,8 +340,13 @@ export default function SubmitStory() {
                 />
 
                 {/* Submit */}
-                <Button type="submit" className="w-full bg-gradient-to-r from-saffron to-orange-500 text-white text-lg py-6" disabled={submitStoryMutation.isPending}>
-                  <Feather className="w-5 h-5 mr-2" />
+                <Button 
+                  type="submit" 
+                  className="w-full bg-gradient-to-r from-saffron to-orange-500 hover:from-saffron/90 hover:to-orange-500/90 text-white text-lg py-6"
+                  disabled={submitStoryMutation.isPending}
+                  data-testid="button-submit-story"
+                >
+                  <Send className="w-5 h-5 mr-2" />
                   {submitStoryMutation.isPending ? "Submitting..." : "Submit Your Story"}
                 </Button>
 

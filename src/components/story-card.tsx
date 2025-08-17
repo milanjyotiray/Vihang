@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CalendarDays, MapPin } from "lucide-react";
 import { Link } from "wouter";
-import type { Story } from "@shared/schema";
+import type { Story } from "@/lib/schema";
 
 interface StoryCardProps {
   story: Story;

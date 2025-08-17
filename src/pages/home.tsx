@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Search } from "lucide-react";
 import { useState } from "react";
 import { Link } from "wouter";
-import type { Story } from "@shared/schema";
+import type { Story } from "@/lib/schema";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
