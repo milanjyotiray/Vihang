@@ -15,7 +15,7 @@ export interface Database {
     Tables: {
       stories: {
         Row: {
-          id: string
+          id: number
           name: string
           email: string
           city: string
@@ -24,13 +24,13 @@ export interface Database {
           title: string
           story: string
           photo_url: string | null
-          tags: string[] | null
-          status: 'pending' | 'approved' | 'rejected'
           created_at: string
           updated_at: string
+          featured: boolean | null
+          verified: boolean | null
         }
         Insert: {
-          id?: string
+          id?: number
           name: string
           email: string
           city: string
@@ -39,13 +39,13 @@ export interface Database {
           title: string
           story: string
           photo_url?: string | null
-          tags?: string[] | null
-          status?: 'pending' | 'approved' | 'rejected'
           created_at?: string
           updated_at?: string
+          featured?: boolean | null
+          verified?: boolean | null
         }
         Update: {
-          id?: string
+          id?: number
           name?: string
           email?: string
           city?: string
@@ -54,10 +54,10 @@ export interface Database {
           title?: string
           story?: string
           photo_url?: string | null
-          tags?: string[] | null
-          status?: 'pending' | 'approved' | 'rejected'
           created_at?: string
           updated_at?: string
+          featured?: boolean | null
+          verified?: boolean | null
         }
       }
       ngos: {

@@ -10,14 +10,14 @@ export const insertStorySchema = z.object({
   title: z.string().min(1, "Title is required"),
   story: z.string().min(1, "Story is required"),
   photoUrl: z.string().url().optional().or(z.literal("")),
-  tags: z.array(z.string()).optional(),
 });
 
 export const storySchema = insertStorySchema.extend({
-  id: z.string(),
+  id: z.number(),
   createdAt: z.date(),
   updatedAt: z.date(),
-  status: z.enum(["pending", "approved", "rejected"]).default("pending"),
+  featured: z.boolean().optional(),
+  verified: z.boolean().optional(),
 });
 
 // NGO schema
