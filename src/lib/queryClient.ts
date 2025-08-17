@@ -22,7 +22,11 @@ export async function apiRequest(method: string, endpoint: string, data?: any) {
           .select('*')
           .order('created_at', { ascending: false });
         
-        if (error) throw error;
+        if (error) {
+          console.error('Supabase error:', error);
+          throw error;
+        }
+        console.log('Fetched stories:', stories);
         return { json: async () => stories || [] };
       }
       
