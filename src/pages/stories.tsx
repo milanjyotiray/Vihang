@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
+import { useRealtimeStories } from "@/hooks/use-realtime-stories";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
@@ -49,6 +50,9 @@ export default function Stories() {
       });
     }
   }, []);
+
+  // Enable real-time updates for stories
+  useRealtimeStories();
 
   const { data: stories = [], isLoading } = useQuery<Story[]>({
     queryKey: ["/api/stories", categoryFilter === "all" ? "" : categoryFilter, stateFilter === "all" ? "" : stateFilter, searchQuery],

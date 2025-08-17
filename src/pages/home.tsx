@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import HeroSection from "@/components/hero-section";
 import StatsSection from "@/components/stats-section";
 import StoryCard from "@/components/story-card";
+import { useRealtimeStories } from "@/hooks/use-realtime-stories";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,6 +16,9 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [stateFilter, setStateFilter] = useState("");
+
+  // Enable real-time updates for stories
+  useRealtimeStories();
 
   const { data: stories = [], isLoading } = useQuery<Story[]>({
     queryKey: ["/api/stories", categoryFilter === "all" ? "" : categoryFilter, stateFilter === "all" ? "" : stateFilter, searchQuery],
