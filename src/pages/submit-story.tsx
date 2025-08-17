@@ -12,6 +12,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { insertStorySchema, type InsertStory, type Story } from "@/lib/schema";
+import { supabase } from "@/lib/supabase";
 import { Feather, CheckCircle, Copy, Upload, Send } from "lucide-react";
 
 const indianStates = [
@@ -31,6 +32,7 @@ export default function SubmitStory() {
   const [wordCount, setWordCount] = useState(0);
   const [mediaPreview, setMediaPreview] = useState<string | null>(null);
   const [mediaType, setMediaType] = useState<"image" | "video" | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -109,7 +111,7 @@ export default function SubmitStory() {
     form.setValue("story", value);
   };
 
-  const handleMediaUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMediaUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -120,15 +122,43 @@ export default function SubmitStory() {
     }
 
     setMediaType(type);
+    setIsUploading(true);
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (typeof reader.result === "string") {
-        setMediaPreview(reader.result);
-        form.setValue("photoUrl", reader.result);
-      }
-    };
-    reader.readAsDataURL(file);
+    try {
+      // Upload to Supabase Storage
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+      
+      const { error } = await supabase.storage
+        .from('media')
+        .upload(fileName, file);
+
+      if (error) throw error;
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('media')
+        .getPublicUrl(fileName);
+
+      // Set preview for local display
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === "string") {
+          setMediaPreview(reader.result);
+        }
+      };
+      reader.readAsDataURL(file);
+
+      // Set the public URL in form
+      form.setValue("photoUrl", publicUrl);
+      
+      toast({ title: "Upload successful", description: "Media uploaded successfully." });
+    } catch (error: any) {
+      console.error('Upload error:', error);
+      toast({ title: "Upload failed", description: error.message || "Failed to upload media." });
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const copyStoryLink = () => {
@@ -308,9 +338,17 @@ export default function SubmitStory() {
                 <div>
                   <FormLabel>Upload Image/Video (Optional)</FormLabel>
                   <div className="flex items-center gap-4 mt-2">
-                    <Input type="file" accept="image/*,video/*" onChange={handleMediaUpload} />
-                    <Upload className="w-5 h-5 text-gray-500" />
+                    <Input 
+                      type="file" 
+                      accept="image/*,video/*" 
+                      onChange={handleMediaUpload} 
+                      disabled={isUploading}
+                    />
+                    <Upload className={`w-5 h-5 ${isUploading ? 'text-saffron animate-spin' : 'text-gray-500'}`} />
                   </div>
+                  {isUploading && (
+                    <p className="text-sm text-saffron mt-2">Uploading...</p>
+                  )}
                   {mediaPreview && (
                     <div className="mt-4">
                       {mediaType === "image" ? (

@@ -56,6 +56,12 @@ export default function Stories() {
 
   const { data: stories = [], isLoading } = useQuery<Story[]>({
     queryKey: ["/api/stories", categoryFilter === "all" ? "" : categoryFilter, stateFilter === "all" ? "" : stateFilter, searchQuery],
+    queryFn: async () => {
+      const { apiRequest } = await import('@/lib/queryClient');
+      const response = await apiRequest('GET', '/api/stories');
+      return response.json();
+    },
+    staleTime: 30000,
   });
 
   return (

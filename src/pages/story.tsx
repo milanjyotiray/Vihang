@@ -18,6 +18,12 @@ export default function StoryPage() {
 
   const { data: story, isLoading, error } = useQuery<Story>({
     queryKey: ["/api/stories", id],
+    queryFn: async () => {
+      const { apiRequest } = await import('@/lib/queryClient');
+      const response = await apiRequest('GET', `/api/stories/${id}`);
+      return response.json();
+    },
+    staleTime: 30000,
   });
 
   const getCategoryColor = (category: string) => {

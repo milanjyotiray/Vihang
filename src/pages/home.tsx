@@ -22,6 +22,17 @@ export default function Home() {
 
   const { data: stories = [], isLoading } = useQuery<Story[]>({
     queryKey: ["/api/stories", categoryFilter === "all" ? "" : categoryFilter, stateFilter === "all" ? "" : stateFilter, searchQuery],
+    queryFn: async () => {
+      const response = await fetch('/api/stories');
+      if (!response.ok) {
+        // Fallback to direct Supabase query
+        const { apiRequest } = await import('@/lib/queryClient');
+        const fallbackResponse = await apiRequest('GET', '/api/stories');
+        return fallbackResponse.json();
+      }
+      return response.json();
+    },
+    staleTime: 30000, // 30 seconds
   });
 
   // Show only featured stories (first 6) on homepage
